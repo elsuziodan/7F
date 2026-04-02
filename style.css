@@ -89,7 +89,6 @@ html.lenis body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* Evita que el zoom rompa el ancho de la página */
   background-color: var(--bg);
 }
 
@@ -104,13 +103,15 @@ html.lenis body {
 
 #massive-logo {
   font-family: var(--font-heading);
-  /* clamp: Mínimo 8rem, ideal 25vw, máximo 30rem. Evita que en móviles se rompa */
   font-size: clamp(8rem, 25vw, 30rem);
   line-height: 0.8;
   color: var(--text);
   z-index: 1;
+  transform-origin: center center;
+  letter-spacing: -0.05em;
 }
 
+/* Contenedor del texto cinético con perspectiva 3D */
 .kinetic-text {
   position: absolute;
   top: 50%;
@@ -119,15 +120,34 @@ html.lenis body {
   text-align: center;
   z-index: 2;
   width: 100%;
+  pointer-events: none;
+  perspective: 1200px;
+  /* Profundidad 3D ajustada */
 }
 
 .philosophy {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 8vw, 6rem);
-  font-weight: 800;
-  line-height: 1;
+  font-family: var(--font-main);
+  font-size: clamp(1.5rem, 6vw, 6rem);
+  font-weight: 700;
+  line-height: 1.1;
   text-transform: uppercase;
-  color: var(--accent);
-  opacity: 0;
-  transform: scale(0.5); /* Inicia pequeño para el efecto de túnel */
+  color: var(--secondary);
+  margin-bottom: 1rem;
+
+  /* OCULTAMOS EL TEXTO HASTA QUE SPLITTYPE Y GSAP ESTÉN LISTOS */
+  visibility: hidden;
+}
+
+.philosophy:last-child {
+  color: var(--text);
+}
+
+/* Reglas estrictas para que SplitType no rompa el layout */
+.word {
+  display: inline-block;
+}
+
+.char {
+  display: inline-block;
+  will-change: transform, opacity;
 }

@@ -6,8 +6,8 @@ import './style.css'
 import Lenis from '@studio-freight/lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import SplitType from 'split-type'
 
-// Registro global de plugins GSAP
 gsap.registerPlugin(ScrollTrigger)
 
 class App {
@@ -20,14 +20,15 @@ class App {
     this.initLenis()
     this.initGSAP()
     this.initEvents()
-    this.initAnimations()
-    
-    // Log de auditoría visual para confirmar en consola
-    console.log('7F ENGINE INICIALIZADO - Motor de Scroll y Animaciones Listos.')
+
+    // ESPERAR ESTRICTAMENTE A QUE LA FUENTE DESCARGUE ANTES DE ANIMAR
+    document.fonts.ready.then(() => {
+      this.initAnimations()
+      console.log('7F ENGINE: Fuentes cargadas. Animaciones inyectadas con éxito.')
+    })
   }
 
   initLenis() {
-    // Configuración Awwwards para experiencias de alto rendimiento
     this.lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -35,17 +36,14 @@ class App {
       gestureDirection: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      smoothTouch: false, 
+      smoothTouch: false,
       touchMultiplier: 2,
       infinite: false,
     })
-
-    // Sincronizar ScrollTrigger con Lenis en cada scroll
     this.lenis.on('scroll', ScrollTrigger.update)
   }
 
   initGSAP() {
-    // Vincular el ciclo de refresco (RAF) de Lenis al Ticker de GSAP
     gsap.ticker.add((time) => {
       this.lenis.raf(time * 1000)
     })
@@ -58,41 +56,63 @@ class App {
     })
   }
 
-  // --- COREOGRAFÍA VISUAL ---
+  // --- COREOGRAFÍA VISUAL BLINDADA ---
   initAnimations() {
-    // Timeline del Hero Tunnel (Z-Axis)
+    // 1. Cortar el texto respetando los espacios entre palabras
+    const splitText = new SplitType('.philosophy', { types: 'words, chars' })
+
+    // 2. Hacer visible el contenedor ahora que ya está cortado correctamente
+    gsap.set('.philosophy', { visibility: 'visible' })
+
+    // 3. Ocultar físicamente las letras al inicio para evitar parpadeos
+    gsap.set(splitText.chars, { opacity: 0 })
+
     const heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: "#hero-tunnel",
         start: "top top",
-        end: "+=250%", // Controla la duración del viaje por el túnel
-        pin: true,     // Fija la pantalla mientras ocurre la animación
-        scrub: 1,      // Suavidad de interpolación atada al scroll
+        end: "+=300%",
+        pin: true,
+        scrub: 1,
       }
     })
 
     heroTl
-      // Paso 1: El logo hace zoom masivo hacia la cámara y se desenfoca
+      // Paso 1: El logo "7F" viaja masivamente hacia la cámara
       .to("#massive-logo", {
-        scale: 20, 
+        scale: 30,
         opacity: 0,
-        filter: "blur(20px)",
-        duration: 2,
-        ease: "power2.inOut"
+        filter: "blur(30px)",
+        duration: 2.5, // Le damos más tiempo para que despeje la pantalla
+        ease: "power3.inOut"
       })
-      // Paso 2: La filosofía aparece desde el "fondo" del túnel
-      .to(".philosophy", {
-        opacity: 1,
-        scale: 1,
-        stagger: 0.3,
-        duration: 1.5,
-        ease: "power2.out"
-      }, "-=1.2") // Inicia antes de que el logo desaparezca por completo
-      // Paso 3: El texto también se desvanece al continuar bajando
-      .to(".philosophy", {
+      // Paso 2: Las letras entran en 3D (usando fromTo para asegurar el estado inicial)
+      .fromTo(splitText.chars,
+        {
+          opacity: 0,
+          scale: 0,
+          rotationX: -90,
+          z: -500,
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          rotationX: 0,
+          z: 0,
+          stagger: 0.05,
+          duration: 1.5,
+          ease: "back.out(1.5)"
+        },
+        "-=1.5" // Entra un poco más tarde para que el 7F ya no estorbe
+      )
+      // Paso 3: Salida del texto
+      .to(splitText.chars, {
         opacity: 0,
-        y: -50,
-        duration: 1
+        y: -100,
+        rotationX: 90,
+        stagger: 0.02,
+        duration: 1,
+        ease: "power2.in"
       }, "+=0.5")
   }
 
@@ -103,6 +123,5 @@ class App {
   }
 }
 
-// Singleton: Una única instancia controla todo
 const appInstance = new App()
 export default appInstance
