@@ -1,411 +1,68 @@
 /* 
   7F - SEVEN FACTOR 
-  Brutalist Typography Design System
+  Brutalist Professional Reset & Token System 
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Sora:wght@400;800&family=Inter:wght@400;500&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Sora:wght@400;800&display=swap');
 
 :root {
+  /* Colors */
   --bg: #0B0B0C;
   --text: #FFFFFF;
-  --secondary: #8A8A8A;
   --accent: #6C7CFF;
-  --border: #8A8A8A;
-  
-  --font-hero: 'Space Grotesk', sans-serif;
-  --font-heading: 'Sora', sans-serif;
-  --font-cta: 'General Sans', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --border: rgba(255, 255, 255, 0.1);
+  --secondary: #8A8A8A;
 
+  /* Typography */
+  --font-main: 'Space Grotesk', sans-serif;
+  --font-heading: 'Sora', sans-serif;
+
+  /* Spacing */
   --p-xl: 12rem;
   --p-lg: 8rem;
   --p-md: 4rem;
 }
 
-* {
+/* Modern Reset */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
-  line-height: 1.4;
-  overflow-x: hidden;
+html {
+  height: -webkit-fill-available;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-main {
+body {
   width: 100%;
-  overflow: hidden; /* Bindaje contra escalado masivo */
-  position: relative;
-}
-
-/* Typography Scale */
-h1 {
-  font-family: var(--font-hero);
-  font-weight: 700;
-  line-height: 0.8;
-  text-transform: uppercase;
-}
-
-h2, h3 {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  text-transform: uppercase;
-  line-height: 1.1;
-  letter-spacing: -0.05em; /* Refinamiento brutalista compacto */
-}
-
-.cta-text {
-  font-family: var(--font-cta);
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  font-weight: 600;
-}
-
-/* Sections Layout */
-section {
-  padding: var(--p-lg) 5%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Hero Section */
-#hero {
-  height: 100vh;
-  padding-top: 0;
-  position: relative;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-#hero h1 {
-  font-size: 35vw;
-  margin-left: -0.05em;
-  letter-spacing: -0.04em;
+  background-color: var(--bg);
   color: var(--text);
-  transform-origin: center center;
-  will-change: transform, opacity;
+  font-family: var(--font-main);
+  overflow-x: hidden;
+  line-height: 1.4;
 }
 
-.hero-wrapper {
+#app {
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  position: relative;
 }
 
-#hero h2 {
-  font-size: 4vw;
-  width: 100%;
-  margin-top: 2rem;
-  color: var(--secondary);
-}
-
-/* Philosophy Section */
-#philosophy {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.philosophy-text {
-  font-family: var(--font-hero);
-  font-size: 10vw;
-  font-weight: 700;
-  line-height: 1;
-  text-transform: uppercase;
-  max-width: 90%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5em;
-}
-
-.philosophy-text span {
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-.philosophy-text span:nth-child(even) {
-  color: var(--secondary);
-  font-family: var(--font-heading);
-  transform: translateX(5vw);
-}
-
-/* Services Grid */
-#services {
-  border-top: 1px solid var(--border);
-}
-
-.services-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 100%;
-}
-
-.service-card {
-  padding: 4rem;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  transition: all 0.1s steps(2); /* Agresivo, tipo flash */
-  cursor: pointer;
-}
-
-.service-card:hover {
-  background-color: #FFFFFF;
-  color: #0B0B0C;
-  border-color: #FFFFFF;
-}
-
-.service-card:hover .service-num,
-.service-card:hover p,
-.service-card:hover h3 {
-  color: #0B0B0C;
-}
-
-.service-card:nth-child(even) {
-  border-right: none;
-}
-
-.service-num {
-  font-family: var(--font-hero);
-  font-size: 8rem;
+img {
+  max-width: 100%;
   display: block;
-  margin-bottom: 2rem;
 }
 
-.service-card h3 {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-}
-
-.service-card p {
-  color: var(--secondary);
-  font-size: 1.1rem;
-  max-width: 400px;
-}
-
-/* Showcase Grid asimétrico */
-#showcase {
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: min-content;
-  background-color: var(--bg);
-}
-
-.showcase-item {
-  position: relative;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  grid-column: span 6;
-}
-
-/* Item dominante (Sistema Clínico) */
-.showcase-item:first-child {
-  grid-column: span 12;
-  height: 80vh;
-}
-
-.showcase-item:nth-child(2) { grid-column: span 7; height: 70vh; }
-.showcase-item:nth-child(3) { grid-column: span 5; height: 70vh; }
-.showcase-item:nth-child(4) { grid-column: span 12; height: 60vh; }
-
-.showcase-img-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.showcase-img-container img {
-  width: 100%;
-  height: 120%; /* Altura extra para el parallax */
-  object-fit: cover;
-  position: absolute;
-  top: -10%;
-  will-change: transform; /* Optimización GPU para Parallax */
-}
-
-.reveal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #0B0B0C;
-  z-index: 2;
-  transform-origin: right;
-}
-
-.showcase-info {
-  position: absolute;
-  bottom: 2rem;
-  left: 2rem;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.showcase-info h3 {
-  font-size: 2.5rem;
-  margin-top: 0.5rem;
-  text-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-/* Contact Footer Final 100vh */
-#contact {
-  min-height: 100vh;
-  padding: var(--p-lg) 5% 0 5%;
-  background-color: var(--bg);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.contact-header {
-  margin-bottom: 4rem;
-}
-
-.massive-title {
-  font-size: 12vw;
-  line-height: 0.9;
-  margin-top: 1rem;
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 6rem;
-  width: 100%;
-}
-
-.form-group {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.contact-form label {
-  color: var(--secondary);
-  font-family: var(--font-cta);
-  font-size: 0.8rem;
-  letter-spacing: 0.4rem;
-  margin-bottom: 1rem;
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 8px solid var(--secondary);
-  color: var(--text);
-  font-family: var(--font-hero); /* Space Grotesk masivo */
-  font-size: 10vw;
-  font-weight: 700;
-  padding: 1rem 0;
-  text-transform: uppercase;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-  color: rgba(255,255,255,0.1);
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: var(--text);
-}
-
-.full-width-cta {
-  width: calc(100% + 10vw);
-  margin-left: -5vw;
-  background-color: var(--text);
-  color: var(--bg);
-  border: none;
-  padding: 4rem 0;
-  cursor: pointer;
-  transition: background-color 0.1s steps(2);
-  margin-top: 4rem;
-}
-
-.full-width-cta:hover {
-  background-color: var(--accent);
-  color: var(--text);
-}
-
-.full-width-cta .cta-text {
-  font-size: 2rem;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  #hero h1 { font-size: 40vw; }
-  #hero h2 { font-size: 6vw; }
-  .services-grid { grid-template-columns: 1fr; }
-  .service-card { border-right: none; }
-  .showcase-grid { grid-template-columns: 1fr; }
-  .showcase-item { grid-row: span 1 !important; height: 60vh !important; }
-}
-
-@media (max-width: 600px) {
-  :root {
-    --p-lg: 4rem;
-  }
-  .philosophy-text { font-size: 15vw; }
-  .service-num { font-size: 15vw; margin-bottom: 1rem; }
-  .contact-form input { font-size: 10vw; }
-}
-/* Custom Cursor */
-.custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  background-color: var(--text);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (max-width: 768px) {
-  .custom-cursor { display: none; }
-}
-
-/* SplitType Kinetic Typography Styles */
-.line-mask {
-  overflow: hidden;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-}
-
-.char {
-  display: inline-block;
-  will-change: transform, opacity;
-}
-
-/* Lenis Smooth Scroll optimization */
-html.lenis {
+/* Lenis Integration Styling */
+html.lenis, html.lenis body {
   height: auto;
 }
 
 .lenis.lenis-smooth {
-  scroll-behavior: auto;
+  scroll-behavior: auto !important;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
