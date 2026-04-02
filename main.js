@@ -1,6 +1,5 @@
-/* 
-  7F - SEVEN FACTOR 
-  Professional Rebuild | Scroll Engine Initializer 
+/* 7F - SEVEN FACTOR 
+  Professional Rebuild | Scroll Engine & Choreography
 */
 
 import './style.css'
@@ -21,13 +20,14 @@ class App {
     this.initLenis()
     this.initGSAP()
     this.initEvents()
+    this.initAnimations()
     
-    // Log de auditoría visual para confirmar que los cimientos están listos
-    console.log('7F ENGINE INICIALIZADO - Estructura Awwwards Lista.')
+    // Log de auditoría visual para confirmar en consola
+    console.log('7F ENGINE INICIALIZADO - Motor de Scroll y Animaciones Listos.')
   }
 
   initLenis() {
-    // Configuración recomendada para experiencias de alto rendimiento
+    // Configuración Awwwards para experiencias de alto rendimiento
     this.lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -35,7 +35,7 @@ class App {
       gestureDirection: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      smoothTouch: false, // Desactivado para evitar fricción en móviles
+      smoothTouch: false, 
       touchMultiplier: 2,
       infinite: false,
     })
@@ -46,31 +46,56 @@ class App {
 
   initGSAP() {
     // Vincular el ciclo de refresco (RAF) de Lenis al Ticker de GSAP
-    // Esto es más eficiente que tener dos RAFs separados compitiendo
     gsap.ticker.add((time) => {
       this.lenis.raf(time * 1000)
     })
-
-    // Optimización de la suavidad del Ticker
     gsap.ticker.lagSmoothing(0)
   }
 
   initEvents() {
-    // Garbage Collection / Cleanup & Reflow management
     window.addEventListener('resize', () => {
       this.lenis.resize()
     })
-
-    // Escucha global de errores de ScrollTrigger en entorno dev
-    ScrollTrigger.addEventListener("refreshInit", () => {
-      // Cualquier lógica de pre-cálculo aquí
-    })
   }
 
-  /**
-   * Método de limpieza manual
-   * Usar si el proyecto escala a una SPA con transiciones de página
-   */
+  // --- COREOGRAFÍA VISUAL ---
+  initAnimations() {
+    // Timeline del Hero Tunnel (Z-Axis)
+    const heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#hero-tunnel",
+        start: "top top",
+        end: "+=250%", // Controla la duración del viaje por el túnel
+        pin: true,     // Fija la pantalla mientras ocurre la animación
+        scrub: 1,      // Suavidad de interpolación atada al scroll
+      }
+    })
+
+    heroTl
+      // Paso 1: El logo hace zoom masivo hacia la cámara y se desenfoca
+      .to("#massive-logo", {
+        scale: 20, 
+        opacity: 0,
+        filter: "blur(20px)",
+        duration: 2,
+        ease: "power2.inOut"
+      })
+      // Paso 2: La filosofía aparece desde el "fondo" del túnel
+      .to(".philosophy", {
+        opacity: 1,
+        scale: 1,
+        stagger: 0.3,
+        duration: 1.5,
+        ease: "power2.out"
+      }, "-=1.2") // Inicia antes de que el logo desaparezca por completo
+      // Paso 3: El texto también se desvanece al continuar bajando
+      .to(".philosophy", {
+        opacity: 0,
+        y: -50,
+        duration: 1
+      }, "+=0.5")
+  }
+
   destroy() {
     this.lenis.destroy()
     gsap.ticker.remove(this.lenis.raf)
@@ -78,7 +103,6 @@ class App {
   }
 }
 
-// Singleton: Una única instancia controla todo el flujo de scroll de la aplicación
+// Singleton: Una única instancia controla todo
 const appInstance = new App()
-
 export default appInstance

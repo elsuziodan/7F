@@ -1,6 +1,5 @@
-/* 
-  7F - SEVEN FACTOR 
-  Brutalist Professional Reset & Token System 
+/* 7F - SEVEN FACTOR 
+  Brutalist Professional Reset & Hardware Accelerated Styles
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Sora:wght@400;800&display=swap');
@@ -23,8 +22,10 @@
   --p-md: 4rem;
 }
 
-/* Modern Reset */
-*, *::before, *::after {
+/* --- MODERN RESET --- */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -56,8 +57,9 @@ img {
   display: block;
 }
 
-/* Lenis Integration Styling */
-html.lenis, html.lenis body {
+/* --- LENIS SMOOTH SCROLL INTEGRATION --- */
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -75,4 +77,57 @@ html.lenis, html.lenis body {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+
+/* --- HERO Z-AXIS TUNNEL --- */
+#hero-tunnel {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Evita que el zoom rompa el ancho de la página */
+  background-color: var(--bg);
+}
+
+.hero-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#massive-logo {
+  font-family: var(--font-heading);
+  /* clamp: Mínimo 8rem, ideal 25vw, máximo 30rem. Evita que en móviles se rompa */
+  font-size: clamp(8rem, 25vw, 30rem);
+  line-height: 0.8;
+  color: var(--text);
+  z-index: 1;
+}
+
+.kinetic-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 2;
+  width: 100%;
+}
+
+.philosophy {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  transform: scale(0.5); /* Inicia pequeño para el efecto de túnel */
 }
