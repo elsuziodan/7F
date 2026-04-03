@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 // 1. IMPORTAMOS TUS MÓDULOS AISLADOS
 import { initHero } from './sections/Hero.js'
 import { initPortal } from './sections/Portal.js'
+import { initHeader } from './sections/Header.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -23,6 +24,7 @@ class App {
     
     // 2. EJECUTAR MÓDULOS DE SECCIONES
     // Si una sección falla, las demás siguen funcionando
+    try { initHeader() } catch(e) { console.error("Error en Header:", e) }
     try { initHero() } catch(e) { console.error("Error en Hero:", e) }
     try { initPortal() } catch(e) { console.error("Error en Portal:", e) }
     
